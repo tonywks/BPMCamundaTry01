@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_purchase" targetNamespace="http://example.com/procureflow">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+  id="Definitions_purchase" targetNamespace="http://example.com/procureflow">
   <bpmn:process id="purchase-approval" name="Purchase approval" isExecutable="true">
-    <bpmn:startEvent id="start" name="Request submitted"><bpmn:outgoing>flow_start_dmn</bpmn:outgoing></bpmn:startEvent>
-    <bpmn:businessRuleTask id="route" name="Evaluate approval routing"><bpmn:extensionElements><zeebe:calledDecision decisionId="approval-routing" resultVariable="routing" /></bpmn:extensionElements><bpmn:incoming>flow_start_dmn</bpmn:incoming><bpmn:outgoing>flow_dmn_manager</bpmn:outgoing></bpmn:businessRuleTask>
-    <bpmn:userTask id="manager_approval" name="Manager approval"><bpmn:extensionElements><zeebe:assignmentDefinition assignee="manager" /></bpmn:extensionElements><bpmn:incoming>flow_dmn_manager</bpmn:incoming><bpmn:outgoing>flow_manager_end</bpmn:outgoing></bpmn:userTask>
-    <bpmn:endEvent id="end" name="Approval completed"><bpmn:incoming>flow_manager_end</bpmn:incoming></bpmn:endEvent>
+    <bpmn:startEvent id="start" name="Request submitted">
+      <bpmn:outgoing>flow_start_dmn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="route" name="Evaluate approval routing">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="approval-routing" resultVariable="routing" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>flow_start_dmn</bpmn:incoming>
+      <bpmn:outgoing>flow_dmn_manager</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:userTask id="manager_approval" name="Manager approval">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="manager" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>flow_dmn_manager</bpmn:incoming>
+      <bpmn:outgoing>flow_manager_end</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="end" name="Approval completed">
+      <bpmn:incoming>flow_manager_end</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:sequenceFlow id="flow_start_dmn" sourceRef="start" targetRef="route" />
     <bpmn:sequenceFlow id="flow_dmn_manager" sourceRef="route" targetRef="manager_approval" />
     <bpmn:sequenceFlow id="flow_manager_end" sourceRef="manager_approval" targetRef="end" />
   </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_purchase_approval">
+    <bpmndi:BPMNPlane id="BPMNPlane_purchase_approval" bpmnElement="purchase-approval">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="160" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="130" y="165" width="95" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_di" bpmnElement="route">
+        <dc:Bounds x="280" y="100" width="120" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="manager_approval_di" bpmnElement="manager_approval">
+        <dc:Bounds x="480" y="100" width="120" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="690" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="645" y="165" width="125" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="flow_start_dmn_di" bpmnElement="flow_start_dmn">
+        <di:waypoint x="196" y="140" /><di:waypoint x="280" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow_dmn_manager_di" bpmnElement="flow_dmn_manager">
+        <di:waypoint x="400" y="140" /><di:waypoint x="480" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow_manager_end_di" bpmnElement="flow_manager_end">
+        <di:waypoint x="600" y="140" /><di:waypoint x="690" y="140" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </bpmn:definitions>
