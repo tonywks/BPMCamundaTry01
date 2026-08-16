@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="approval-routing" namespace="http://example.com/procureflow">
+  <decision id="approval-routing" name="Approval routing">
+    <decisionTable id="approval-routing-table" hitPolicy="UNIQUE">
+      <input id="amount"><inputExpression id="amount-expression" typeRef="number"><text>amount</text></inputExpression></input>
+      <input id="category"><inputExpression id="category-expression" typeRef="string"><text>category</text></inputExpression></input>
+      <output id="approvers" name="approvers" typeRef="string" />
+      <rule id="rule-director"><inputEntry><text>&gt; 50000</text></inputEntry><inputEntry><text>-</text></inputEntry><outputEntry><text>"manager,finance,procurement_director"</text></outputEntry></rule>
+      <rule id="rule-regulated"><inputEntry><text>&lt;= 50000</text></inputEntry><inputEntry><text>"Regulated"</text></inputEntry><outputEntry><text>"manager,finance"</text></outputEntry></rule>
+      <rule id="rule-finance"><inputEntry><text>&gt; 10000</text></inputEntry><inputEntry><text>not("Regulated")</text></inputEntry><outputEntry><text>"manager,finance"</text></outputEntry></rule>
+      <rule id="rule-manager"><inputEntry><text>&lt;= 10000</text></inputEntry><inputEntry><text>not("Regulated")</text></inputEntry><outputEntry><text>"manager"</text></outputEntry></rule>
+    </decisionTable>
+  </decision>
+</definitions>

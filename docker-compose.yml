@@ -1,0 +1,13 @@
+services:
+  camunda:
+    image: camunda/camunda:8.8.0
+    container_name: bpm-camunda-try01
+    ports:
+      - "8080:8080"
+    environment:
+      - CAMUNDA_REST_AUTHENTICATION_ENABLED=false
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health/readiness | grep -q UP"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
